@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useCallback } from "react";
 import TopBar from "./TopBar";
 import Sidebar from "./Sidebar";
 import Footer from "./Footer";
@@ -10,39 +10,30 @@ export default function AppShell({ children }) {
   const resizing = useRef(false);
 
   // Mouse event handlers for resizing
-  const onMouseDown = (e) => {
-    if (window.innerWidth < 768) return; // Only allow on desktop
+  const onMouseDown = useCallback((e) => {
+    if (window.innerWidth < 768) return;
     resizing.current = true;
     document.body.style.cursor = "col-resize";
-  };
-  const onMouseMove = (e) => {
+    document.body.style.userSelect = "none";
+    window.addEventListener("mousemove", onMouseMove);
+    window.addEventListener("mouseup", onMouseUp);
+  }, []);
+
+  const onMouseMove = useCallback((e) => {
     if (!resizing.current) return;
-    // Calculate new width, clamp between 180 and 400px
     const newWidth = Math.min(400, Math.max(180, e.clientX));
     setSidebarWidth(newWidth);
-  };
-  const onMouseUp = () => {
-    resizing.current = false;
-    document.body.style.cursor = "";
-  };
+  }, []);
 
-  // Attach/detach mousemove/up listeners
-  React.useEffect(() => {
-    if (typeof window === "undefined") return;
-    const move = (e) => onMouseMove(e);
-    const up = () => onMouseUp();
+  const onMouseUp = useCallback(() => {
     if (resizing.current) {
-      window.addEventListener("mousemove", move);
-      window.addEventListener("mouseup", up);
-    } else {
-      window.removeEventListener("mousemove", move);
-      window.removeEventListener("mouseup", up);
+      resizing.current = false;
+      document.body.style.cursor = "";
+      document.body.style.userSelect = "";
+      window.removeEventListener("mousemove", onMouseMove);
+      window.removeEventListener("mouseup", onMouseUp);
     }
-    return () => {
-      window.removeEventListener("mousemove", move);
-      window.removeEventListener("mouseup", up);
-    };
-  }, [resizing.current]);
+  }, [onMouseMove]);
 
   return (
     <div className="bg-gray-50 min-h-screen flex flex-col">
