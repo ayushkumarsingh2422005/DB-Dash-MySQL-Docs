@@ -1,0 +1,44 @@
+about db dash
+getting started
+installation
+starting server
+launching web UI
+connecting to mysql server
+control pannel
+Web UI
+    Database manager
+        creation
+        deletion
+        info of Database
+    User manager
+        creting users
+        deleteing users
+        view priveledges
+        gran priveledges
+        revoke priveledges
+        flushing priveledges
+    table manager
+        info of table
+        adding new table
+        renaming table name
+        view table Data
+        droping table
+        clearing compplete data of table
+        deleting row
+        deleiting column
+        adding data into table
+        sorting data of table
+        adding contrints to table
+        adding new column to table
+    Code generation
+        generate code for complete db
+        generate code for table
+    Data export
+        summery export
+        data export
+    Querry Console
+        autocompltion
+        AI suggestions
+uses
+    database management
+    admin pannel

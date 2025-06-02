@@ -61,7 +61,7 @@ export default function AppShell({ children }) {
           <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
         </div>
         {/* Main content */}
-        <main className="flex-1 p-6 overflow-y-auto">
+        <main className="flex-1 p-6 overflow-y-auto h-screen md:h-[calc(100vh-120px)]">
           {children}
         </main>
       </div>
